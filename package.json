@@ -1,0 +1,38 @@
+{
+  "name": "anydoc",
+  "version": "0.0.1",
+  "description": "node web server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "fix": "eslint --fix .",
+    "build:add": "git add .",
+    "precommit": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhao-jun/anydoc.git"
+  },
+  "author": "zhao-jun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhao-jun/anydoc/issues"
+  },
+  "homepage": "https://github.com/zhao-jun/anydoc#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.2.0",
+    "husky": "^1.0.0-rc.13",
+    "lint-staged": "^7.2.0",
+    "nodemon": "^1.18.3",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.14.0"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
+  }
+}

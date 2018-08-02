@@ -9,7 +9,7 @@
 <body>
   {{each files}}
     {{$index}}
-    <a href="{{dir}}/{{$value}}" alt="dir">{{$value}}</a>
+    <a href="{{dir}}/{{$value.file}}" alt="dir">【{{$value.icon}}】{{$value.file}}</a>
   {{/each}}
 </body>
 </html>

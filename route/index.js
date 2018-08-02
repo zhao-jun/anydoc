@@ -3,6 +3,7 @@ const path = require('path');
 const promisify = require('util').promisify;
 const artTemplate = require('art-template');
 const { root } = require('../config/defaultConfig');
+const mime = require('../config/mime');
 
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
@@ -14,11 +15,15 @@ const source = fs.readFileSync(tplPath);
 const template = artTemplate.compile(source.toString());
 
 module.exports = async (req, res, filePath) => {
+  console.log(filePath, 'filePath');
   // 文件是否存在，这是异步，也可以使用同步的API
   try {
     let stats = await stat(filePath);
     if (stats.isFile()) {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      // 类型
+      res.writeHead(200, {
+        'Content-Type': `${mime(filePath)};  charset=utf-8`,
+      });
       // 推荐用流的方式
       // fs.readFile(filePath, (err, data) => {
       //   res.end(data);
@@ -31,7 +36,10 @@ module.exports = async (req, res, filePath) => {
       let data = {
         // 相对位置要加'/'，避免网站访问相对路径
         dir: dir ? `/${dir}` : '',
-        files,
+        files: files.map(file => ({
+          file,
+          icon: mime(file), // 具体icon todo
+        })),
       };
       // res.end(files.join(','));
       res.end(template(data));

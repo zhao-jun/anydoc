@@ -7,8 +7,8 @@ const chalk = require('chalk');
 const { root, port, hostname } = config;
 
 const server = http.createServer((req, res) => {
-  // 拼接文件路径
-  const filePath = path.join(root, req.url);
+  // 拼接文件路径，并对中文文件名解码
+  const filePath = path.join(root, decodeURIComponent(req.url));
   route(req, res, filePath);
 });
 

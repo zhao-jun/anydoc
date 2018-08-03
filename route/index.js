@@ -4,7 +4,8 @@ const promisify = require('util').promisify;
 const artTemplate = require('art-template');
 const { root, compress: compressType } = require('../config/defaultConfig');
 const mime = require('../config/mime');
-const compress = require('./../config/compress');
+const compress = require('../config/compress');
+const range = require('../config/range');
 const chalk = require('chalk');
 
 const stat = promisify(fs.stat);
@@ -24,12 +25,18 @@ module.exports = async (req, res, filePath) => {
       // 类型
       // res.statusCode = 200;
       // res.setHeader('Content-Type', `${mime(filePath)};  charset=utf-8`);
-      let rs = fs.createReadStream(filePath);
+      const { code, start, end } = range(stats.size, req, res);
+      let rs;
+      if (+code == 206) {
+        rs = fs.createReadStream(filePath, { start, end });
+      } else {
+        rs = fs.createReadStream(filePath);
+      }
       if (filePath.match(compressType)) {
         rs = compress(req, res, rs);
       }
       // 发送一个响应头给请求，只能被调用一次，setHeader必须在此之前调用
-      res.writeHead(200, {
+      res.writeHead(`${code}`, {
         'Content-Type': `${mime(filePath)};  charset=utf-8`,
       });
       rs.pipe(res);

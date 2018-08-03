@@ -2,8 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const promisify = require('util').promisify;
 const artTemplate = require('art-template');
-const { root } = require('../config/defaultConfig');
+const { root, compress: compressType } = require('../config/defaultConfig');
 const mime = require('../config/mime');
+const compress = require('./../config/compress');
+const chalk = require('chalk');
 
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
@@ -15,20 +17,26 @@ const source = fs.readFileSync(tplPath);
 const template = artTemplate.compile(source.toString());
 
 module.exports = async (req, res, filePath) => {
-  console.log(filePath, 'filePath');
   // 文件是否存在，这是异步，也可以使用同步的API
   try {
     let stats = await stat(filePath);
     if (stats.isFile()) {
       // 类型
+      // res.statusCode = 200;
+      // res.setHeader('Content-Type', `${mime(filePath)};  charset=utf-8`);
+      let rs = fs.createReadStream(filePath);
+      if (filePath.match(compressType)) {
+        rs = compress(req, res, rs);
+      }
+      // 发送一个响应头给请求，只能被调用一次，setHeader必须在此之前调用
       res.writeHead(200, {
         'Content-Type': `${mime(filePath)};  charset=utf-8`,
       });
+      rs.pipe(res);
       // 推荐用流的方式
       // fs.readFile(filePath, (err, data) => {
       //   res.end(data);
       // });
-      fs.createReadStream(filePath).pipe(res);
     } else if (stats.isDirectory()) {
       let files = await readdir(filePath);
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -45,7 +53,7 @@ module.exports = async (req, res, filePath) => {
       res.end(template(data));
     }
   } catch (error) {
-    console.error(error);
+    console.error(chalk.red(error));
     // res.statusCode = 404;
     // res.setHeader('Content-Type', 'text/html; charset=utf-8');
     // utf-8中文乱码

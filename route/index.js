@@ -6,6 +6,7 @@ const { root, compress: compressType } = require('../config/defaultConfig');
 const mime = require('../config/mime');
 const compress = require('../config/compress');
 const range = require('../config/range');
+const cacheFresh = require('../config/cache');
 const chalk = require('chalk');
 
 const stat = promisify(fs.stat);
@@ -25,6 +26,14 @@ module.exports = async (req, res, filePath) => {
       // 类型
       // res.statusCode = 200;
       // res.setHeader('Content-Type', `${mime(filePath)};  charset=utf-8`);
+      // cache
+      if (cacheFresh(stats, req, res)) {
+        res.writeHead(304, { 'Content-Type': 'text/html; charset=utf-8' });
+        // 告诉server已完成
+        res.end();
+        return;
+      }
+      // range
       const { code, start, end } = range(stats.size, req, res);
       let rs;
       if (+code == 206) {

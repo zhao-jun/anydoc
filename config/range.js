@@ -1,3 +1,4 @@
+// http range
 module.exports = (fileSizes, req, res) => {
   const range = req.headers['range'];
   if (!range) return { code: 200 };

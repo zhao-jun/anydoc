@@ -12,7 +12,7 @@ module.exports = (stats, req, res) => {
   // 文件最后一次修改时间
   if (lastModified) res.setHeader('Last-Modified', stats.mtime.toUTCString());
   // 不重复标签即可，可以生成hash
-  if (eTag) res.setHeader('ETag', `${stats.size}-${stats.mtime.valueOf()}`);
+  if (eTag) res.setHeader('ETag', `${stats.size}-${stats.mtime.valueOf()}`); // mtime 需要转成字符串，否则在 windows 环境下会报错
   const ifModifiedSince = req.headers['if-modified-since'];
   const ifNoneMatch = req.headers['if-none-match'];
 

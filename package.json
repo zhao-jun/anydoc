@@ -2,9 +2,9 @@
   "name": "anydoc",
   "version": "0.0.1",
   "description": "node web server",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon src/index.js",
     "lint": "eslint .",
     "fix": "eslint --fix .",
     "build:add": "git add .",

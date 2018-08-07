@@ -1,8 +1,11 @@
 {
   "name": "anydoc",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "node web server",
   "main": "src/server.js",
+  "bin": {
+    "anydoc": "bin/anydoc"
+  },
   "scripts": {
     "dev": "nodemon src/index.js",
     "lint": "eslint .",

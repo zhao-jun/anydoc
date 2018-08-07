@@ -6,17 +6,17 @@ const argv = yargs
   .usage('anydoor [options]')
   .option('p', {
     alias: 'port',
-    describe: '自定义端口号',
+    describe: '端口号',
     default: defaultConfig.port,
   })
   .option('h', {
     alias: 'host',
-    describe: '自定义host',
+    describe: 'host',
     default: defaultConfig.hostname,
   })
   .option('d', {
     alias: 'root',
-    describe: '自定义根目录',
+    describe: 'root',
     default: defaultConfig.root,
   })
   .help().argv;

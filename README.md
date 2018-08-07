@@ -8,9 +8,9 @@ npm i -g anydoc
 
 ## 使用方法
 ```
-anydoor  # 当前目录为根目录，在http://127.0.0.1:3030/启动
+anydoor  # 当前文件夹作为静态资源服务器根目录
 
-anydoor -p 8080   # 设置端口为8080
+anydoor -p 8080   # 设置端口为8080，默认端口3030
 
 anydoor -d c:  # 设置根目录为c:
 

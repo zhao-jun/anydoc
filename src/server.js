@@ -1,8 +1,9 @@
 const http = require('http');
 const path = require('path');
-const defaultConfig = require('./config/defaultConfig');
-const route = require('./route/index');
 const chalk = require('chalk');
+const defaultConfig = require('./config/defaultConfig');
+const openUrl = require('./config/openUrl');
+const route = require('./route/index');
 
 class Server {
   constructor(config) {
@@ -12,7 +13,6 @@ class Server {
 
   start() {
     const { root, port, hostname } = this.config;
-
     const server = http.createServer((req, res) => {
       // 拼接文件路径，并对中文文件名解码
       const filePath = path.join(root, decodeURIComponent(req.url));
@@ -20,7 +20,9 @@ class Server {
     });
 
     server.listen(port, hostname, () => {
-      console.log(chalk.blue(`Server running at http://${hostname}:${port}/`));
+      const addr = `http://${hostname}:${port}/`;
+      console.log(chalk.blue(`Server running at ${addr}`));
+      openUrl(addr);
     });
   }
 }

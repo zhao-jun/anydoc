@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const promisify = require('util').promisify;
 const artTemplate = require('art-template');
-const { root, compress: compressType } = require('../config/defaultConfig');
 const mime = require('../config/mime');
 const compress = require('../config/compress');
 const range = require('../config/range');
@@ -18,7 +17,8 @@ const tplPath = path.join(__dirname, '../template/index.html');
 const source = fs.readFileSync(tplPath);
 const template = artTemplate.compile(source.toString());
 
-module.exports = async (req, res, filePath) => {
+module.exports = async (req, res, filePath, config) => {
+  const { root, compress: compressType } = config;
   // 文件是否存在，这是异步，也可以使用同步的API
   try {
     let stats = await stat(filePath);

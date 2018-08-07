@@ -16,7 +16,7 @@ class Server {
     const server = http.createServer((req, res) => {
       // 拼接文件路径，并对中文文件名解码
       const filePath = path.join(root, decodeURIComponent(req.url));
-      route(req, res, filePath);
+      route(req, res, filePath, this.config);
     });
 
     server.listen(port, hostname, () => {

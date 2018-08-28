@@ -11,7 +11,15 @@
     "lint": "eslint .",
     "fix": "eslint --fix .",
     "build:add": "git add .",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "commit": "npm install -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact",
+    "pkg": "rimraf pkg-dist && pkg . --targets=node8-win-x64,node8-macos-x64,node8-linux-x64 --out-path pkg-dist"
+  },
+  "pkg": {
+    "scripts": [
+      "src/**/*.js"
+    ],
+    "assets": "node_modules/**"
   },
   "repository": {
     "type": "git",
@@ -25,11 +33,14 @@
   "homepage": "https://github.com/zhao-jun/anydoc#readme",
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.2.0",
     "husky": "^1.0.0-rc.13",
     "lint-staged": "^7.2.0",
     "nodemon": "^1.18.3",
-    "prettier": "^1.14.0"
+    "pkg": "^4.3.4",
+    "prettier": "^1.14.0",
+    "rimraf": "^2.6.2"
   },
   "dependencies": {
     "art-template": "^4.12.2",
@@ -41,5 +52,10 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

@@ -3,7 +3,7 @@ const Server = require('./server');
 const defaultConfig = require('./config/defaultConfig');
 
 const argv = yargs
-  .usage('anydoor [options]')
+  .usage('anydoc [options]')
   .option('p', {
     alias: 'port',
     describe: '端口号',

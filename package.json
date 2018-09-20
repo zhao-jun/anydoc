@@ -1,6 +1,6 @@
 {
   "name": "anydoc",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "node web server",
   "main": "src/server.js",
   "bin": {
@@ -19,7 +19,11 @@
     "scripts": [
       "src/**/*.js"
     ],
-    "assets": "node_modules/**"
+    "assets": [
+      "node_modules/art-template/**",
+      "node_modules/chalk/**",
+      "node_modules/yargs/**"
+    ]
   },
   "repository": {
     "type": "git",
